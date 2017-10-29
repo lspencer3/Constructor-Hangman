@@ -10,21 +10,11 @@ var Letter = function Letter(letterparam1){
 			guessedLetters.push(this.letter)
 		}
 	};
-	this.show = function(){
-		if (this.guess === true){
-			for(var i = 0; i< word.wordarray.length; i++){
-				if(this.letter = word.wordarray[i]){
-					ungameWordArray[i]=this.letter
-				}
-			}
-		}
-	}
 };
 
-	module.exports = {
-	letterConstructor:Letter
-};
-console.log(Letter)
+module.exports = Letter
+
+//console.log(Letter)
 /*var a = new Letter("a");
 console.log(a.guessed)
 

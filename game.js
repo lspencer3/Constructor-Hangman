@@ -1,5 +1,5 @@
-var Word = require("./game.js");
-var letter = require("./letter.js");
+var Word = require("./word.js");
+var Letter = require("./letter.js");
 console.log(Word)
 var words = {
 	word1: ["h","a","k","u","n", "a"," ", "m", "a", "t","a","t", "a"],
@@ -27,11 +27,11 @@ function pickWord(){
 pickWord();
 //display word picked
 console.log(gameWord)
-//var curgameWord = new Word(gameWord);
+var curgameWord = new Word(gameWord);
+curgameWord.lettersObjects();
+curgameWord.displayWord;
 //console.log(curgameWord)
-//pass gameWord through word constructor
-//console.log(gameWord);
-//console.log(songs.length);
+
 
 
 
