@@ -34,24 +34,10 @@ var curGameWord = new Word(gameWord);
 //console.log(curGameWord)
 console.log(curGameWord.wordArray)
 curGameWord.lettersObjects();
-console.log(curGameWord.wordLetters)
-displayWord(curGameWord.wordArray);
-//curGameWord.displayWord(curGameWord);
+//console.log(curGameWord.wordLetters)
+curGameWord.displayWord();
 
-
-function displayWord(wordarrayparam){
-	for (var i = 0; i < wordarrayparam.length; i++){
-		if(wordarrayparam[i]===" "){
-			uarray.push(" ")
-		}
-		else{
-			uarray.push("_")
-		}
-	}
-	console.log(uarray.join(" ") + "\n")
-	UserInput()
-}
-
+UserInput();
 
 function UserInput(){
 inquirer.prompt([
@@ -62,15 +48,15 @@ inquirer.prompt([
         type:"checkbox"
       }
     ]).then(function(ans) {
-     guess = ans.guess
+     guess = ans.guess[0]
      console.log(guess)
      for (var i = 0; i < curGameWord.wordLetters.length; i++){
      	if (guess === curGameWord.wordLetters[i].ltr){
-     		uarray[i] = guess
+     		curGameWord.uarray[i] = guess
      	}
      }
-     console.log(uarray.join(" ") + "\n")
-     UserInput()
+     console.log(curGameWord.uarray.join(" "))
+     UserInput();
     });
 
 }
