@@ -1,30 +1,22 @@
 
 var Letter = require("./letter.js");
 
-var wordLetters =[ ];
-var ungameWordArray = [];
 var guessedWrong=[];
 
 var Word = function Word(wordarrayparam){
-	this.wordarray = wordarrayparam;
+	this.wordArray = wordarrayparam;
+	this.wordLetters =[];
 	this.lettersObjects = function(){
-		var WA = this.wordarray
+		var WA = this.wordArray
 		for (var i = 0 ; i < WA.length; i++){
-			  wordLetters.push(new Letter(WA[i]));
+			  this.wordLetters.push(new Letter(WA[i]));
 		}
-		console.log(wordLetters)
+		//console.log(wordLetters)
 	};
-	this.displayWord = function(){
-		for (var i = 0 ; i < wordarrayparam.length; i++){
-			var un = "_";
-			ungameWordArray.push(un)
-		}
-		console.log(ungameWordArray)
-	}
 	this.redisplayWord = function(){
 		if (letter.guessed === true){
-			for(var i = 0; i < curgameWord.wordarray.length; i++){
-				if(letter.letter = curgameWord.wordarray[i]){
+			for(var i = 0; i < curgameWord.wordArray.length; i++){
+				if(letter.letter = curgameWord.wordArray[i]){
 					ungameWordArray[i]=letter.letter
 				}
 			}

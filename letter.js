@@ -2,7 +2,7 @@
 var guessedLetters =[];
 
 var Letter = function Letter(letterparam1){
-	this.letter = letterparam1;
+	this.ltr = letterparam1;
 	this.guessed = false;
 	this.guessfunc = function(){
 		if (process.argv[2] === this.letter){

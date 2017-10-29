@@ -1,5 +1,8 @@
 var Word = require("./word.js");
 var Letter = require("./letter.js");
+var uarray = [];
+var inquirer = require("inquirer");
+var guess;
 console.log(Word)
 var words = {
 	word1: ["h","a","k","u","n", "a"," ", "m", "a", "t","a","t", "a"],
@@ -26,11 +29,51 @@ function pickWord(){
 //start the game by picking a random word from the songs array
 pickWord();
 //display word picked
-console.log(gameWord)
-var curgameWord = new Word(gameWord);
-curgameWord.lettersObjects();
-curgameWord.displayWord;
-//console.log(curgameWord)
+//console.log(gameWord)
+var curGameWord = new Word(gameWord);
+//console.log(curGameWord)
+console.log(curGameWord.wordArray)
+curGameWord.lettersObjects();
+console.log(curGameWord.wordLetters)
+displayWord(curGameWord.wordArray);
+//curGameWord.displayWord(curGameWord);
+
+
+function displayWord(wordarrayparam){
+	for (var i = 0; i < wordarrayparam.length; i++){
+		if(wordarrayparam[i]===" "){
+			uarray.push(" ")
+		}
+		else{
+			uarray.push("_")
+		}
+	}
+	console.log(uarray.join(" ") + "\n")
+	UserInput()
+}
+
+
+function UserInput(){
+inquirer.prompt([
+      {
+        name: "guess",
+        message: "Guess a letter.",
+        choices: ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
+        type:"checkbox"
+      }
+    ]).then(function(ans) {
+     guess = ans.guess
+     console.log(guess)
+     for (var i = 0; i < curGameWord.wordLetters.length; i++){
+     	if (guess === curGameWord.wordLetters[i].ltr){
+     		uarray[i] = guess
+     	}
+     }
+     console.log(uarray.join(" ") + "\n")
+     UserInput()
+    });
+
+}
 
 
 
