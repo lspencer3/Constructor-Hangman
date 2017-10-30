@@ -17,8 +17,8 @@ var words = {
 	word10:["c", "a", "n", " ", "y", "o", "u", " ", "f", "e", "e", "l", " ","t", "h", "e", " ", "l" , "o", "v","e", " ", "t", "o","n","i", "g","h","t"]
 }
 var gameWord;
-var songs = [words.word1, words.word2, words.word3, words.word4, words.word5, words.word6, words.word7, words.word8, words.word9, words.word10];
-
+//var songs = [words.word1, words.word2, words.word3, words.word4, words.word5, words.word6, words.word7, words.word8, words.word9, words.word10];
+var songs =[words.word5]
 //console.log(songs.length)
 
 function pickWord(){
@@ -36,30 +36,63 @@ console.log(curGameWord.wordArray)
 curGameWord.lettersObjects();
 //console.log(curGameWord.wordLetters)
 curGameWord.displayWord();
-
 UserInput();
 
 function UserInput(){
-inquirer.prompt([
-      {
-        name: "guess",
-        message: "Guess a letter.",
-        choices: ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
-        type:"checkbox"
-      }
-    ]).then(function(ans) {
-     guess = ans.guess[0]
-     console.log(guess)
-     for (var i = 0; i < curGameWord.wordLetters.length; i++){
-     	if (guess === curGameWord.wordLetters[i].ltr){
-     		curGameWord.uarray[i] = guess
-     	}
-     }
-     console.log(curGameWord.uarray.join(" "))
-     UserInput();
-    });
-
+	if (curGameWord.wordWon === false){
+		inquirer.prompt([
+	      {
+	        name: "guess",
+	        message: "Guess a letter.",
+	        choices: ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
+	        type:"checkbox"
+	      }
+	    ]).then(function(ans) {
+	     guess = ans.guess[0]
+	     console.log(guess)
+	     for (var i = 0; i < curGameWord.wordLetters.length; i++){
+	     	if (guess === curGameWord.wordLetters[i].ltr){
+	     		curGameWord.uarray[i] = guess
+	     		curGameWord.guessed ++
+	     		//console.log(curGameWord.guessed)
+	     		//console.log(curGameWord.uarray.length)
+	     	}
+	     }
+	     console.log(curGameWord.uarray.join(" "))
+	     curGameWord.newWordCheck();
+	     //console.log(curGameWord.wordWon)
+	     UserInput();
+	    });
+	}
+	else if (curGameWord.wordWon === true){
+		console.log(songs)
+		gamePlayed();
+		pickWord();
+		curGameWord = new Word(gameWord);
+		console.log(curGameWord.wordArray)
+		curGameWord.lettersObjects();
+		console.log("New Word! \n")
+		curGameWord.displayWord();
+		UserInput();
+	}
 }
+
+
+function gamePlayed(){
+	if (songs === []){
+		inquirer.prompt([
+	      {
+	        name: "newGame",
+	        message: "Awesome! You guessed all the Disney Songs! Play Again?",
+	        type: "confirm"
+	      }
+	    ]).then(function(res){
+	    	console.log(res)
+	    })
+	}
+}
+
+
 
 
 

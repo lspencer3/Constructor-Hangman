@@ -14,12 +14,5 @@ var Letter = function Letter(letterparam1){
 
 module.exports = Letter
 
-//console.log(Letter)
-/*var a = new Letter("a");
-console.log(a.guessed)
-
-console.log(a.letter)
-a.guessfunc();
-console.log(a.guessed)*/
 
 

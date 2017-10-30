@@ -7,10 +7,11 @@ var Word = function Word(wordarrayparam){
 	this.wordArray = wordarrayparam;
 	this.wordLetters =[];
 	this.uarray =[];
+	this.guessed = 0;
+	this.wordWon = false;
 	this.lettersObjects = function(){
-		var WA = this.wordArray
-		for (var i = 0 ; i < WA.length; i++){
-			  this.wordLetters.push(new Letter(WA[i]));
+		for (var i = 0 ; i < this.wordArray.length; i++){
+			  this.wordLetters.push(new Letter(this.wordArray[i]));
 		}
 		//console.log(wordLetters)
 	};
@@ -18,12 +19,18 @@ var Word = function Word(wordarrayparam){
 		for (var i = 0; i < this.wordArray.length; i++){
 			if(this.wordArray[i]===" "){
 				this.uarray.push(" ")
+				this.guessed ++
 			}
 			else{
 				this.uarray.push("_")
 			}
 		}
 		console.log(this.uarray.join(" ") + "\n")
+	};
+	this.newWordCheck = function(){
+		if (this.guessed === this.wordArray.length){
+			this.wordWon = true
+		}
 	};
 	this.redisplayWord = function(){
 		if (letter.guessed === true){
