@@ -3,7 +3,7 @@ var Letter = require("./letter.js");
 var uarray = [];
 var inquirer = require("inquirer");
 var guess;
-console.log(Word)
+//console.log(Word)
 var words = {
 	word1: ["h","a","k","u","n", "a"," ", "m", "a", "t","a","t", "a"],
 	word2: ["a", " ", "w", "h", "o", "l","e", " ", "n", "e", "w", " ", "w", "o", "r", "l", "d"],
@@ -18,7 +18,9 @@ var words = {
 }
 var gameWord;
 //var songs = [words.word1, words.word2, words.word3, words.word4, words.word5, words.word6, words.word7, words.word8, words.word9, words.word10];
-var songs =[words.word5]
+var userOptions = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
+
+var songs =[words.word5,words.word7]
 //console.log(songs.length)
 
 function pickWord(){
@@ -32,10 +34,12 @@ pickWord();
 //console.log(gameWord)
 var curGameWord = new Word(gameWord);
 //console.log(curGameWord)
-console.log(curGameWord.wordArray)
+console.log("\nPick a letter to start the game.\nYou can only pick one at a time. \nThe theme is Disney Songs! :) \nHave Fun!")
+//console.log(curGameWord.wordArray)
 curGameWord.lettersObjects();
 //console.log(curGameWord.wordLetters)
 curGameWord.displayWord();
+console.log("\n Guesses left: " + curGameWord.guesses +"\n")
 UserInput();
 
 function UserInput(){
@@ -44,55 +48,121 @@ function UserInput(){
 	      {
 	        name: "guess",
 	        message: "Guess a letter.",
-	        choices: ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"],
+	        choices: userOptions,
 	        type:"checkbox"
 	      }
 	    ]).then(function(ans) {
 	     guess = ans.guess[0]
-	     console.log(guess)
-	     for (var i = 0; i < curGameWord.wordLetters.length; i++){
-	     	if (guess === curGameWord.wordLetters[i].ltr){
-	     		curGameWord.uarray[i] = guess
-	     		curGameWord.guessed ++
-	     		//console.log(curGameWord.guessed)
-	     		//console.log(curGameWord.uarray.length)
-	     	}
-	     }
-	     console.log(curGameWord.uarray.join(" "))
-	     curGameWord.newWordCheck();
-	     //console.log(curGameWord.wordWon)
-	     UserInput();
+	     //console.log(guess)
+	     //remove guessed letter from available user options
+	     userOptions.splice(userOptions.indexOf(guess), 1);
+		     if(curGameWord.wordArray.indexOf(guess)>=0){
+			     for (var i = 0; i < curGameWord.wordLetters.length; i++){
+			     	if (guess === curGameWord.wordLetters[i].ltr){
+			     		curGameWord.uarray[i] = guess
+			     		curGameWord.guessedWCounter ++
+			     		//console.log(curGameWord.guessed)
+			     		//console.log(curGameWord.uarray.length)
+			     	}
+
+			    }
+			curGameWord.newWordCheck();
+			curGameWord.guessedltrs.push(guess)
+		    console.log("\n"+ curGameWord.uarray.join(" ")+"\n")
+		    console.log("\n Letters already guessed: "+ curGameWord.guessedltrs.join(" ")+"\n")
+		    console.log("\n Guesses left: " + curGameWord.guesses +"\n")
+		    //console.log(curGameWord.guessedWCounter)
+		    //console.log(curGameWord.wordWon)
+		    UserInput()
+		 	}
+		    else {	
+		     		//console.log(curGameWord.guesses)
+		     		console.log("\nSorry that letter is not in the song")
+		     		curGameWord.guesses -- 
+		     		checkMaxGuesses();
+		     		//console.log(curGameWord.guesses)
+		     }
 	    });
 	}
 	else if (curGameWord.wordWon === true){
-		console.log(songs)
+		//console.log(songs.length)
 		gamePlayed();
-		pickWord();
-		curGameWord = new Word(gameWord);
-		console.log(curGameWord.wordArray)
-		curGameWord.lettersObjects();
-		console.log("New Word! \n")
-		curGameWord.displayWord();
-		UserInput();
 	}
 }
 
 
 function gamePlayed(){
-	if (songs === []){
+	if (songs.length === 0){
 		inquirer.prompt([
 	      {
 	        name: "newGame",
-	        message: "Awesome! You guessed all the Disney Songs! Play Again?",
+	        message: "\n Awesome! You guessed all the Disney Songs! Play Again? \n",
 	        type: "confirm"
 	      }
 	    ]).then(function(res){
-	    	console.log(res)
+	    		//console.log(res)
+	    		if(res.newGame === true|| res.newGame === "yes"){
+	    			//songs = [words.word1, words.word2, words.word3, words.word4, words.word5, words.word6, words.word7, words.word8, words.word9, words.word10];
+					songs =[words.word5, words.word7]
+	    		}
+	    		else{
+	    			console.log("\n Thanks for playing!! :) \n")
+	    		}
 	    })
+	}
+	else{
+		pickWord();
+		curGameWord = new Word(gameWord);
+		//console.log(curGameWord.wordArray)
+		curGameWord.lettersObjects();
+		console.log("\n New Word! \n")
+		curGameWord.displayWord();
+		console.log("\n Guesses left: " + curGameWord.guesses +"\n")
+		UserInput();
+	}
+	//console.log("song check came back true")
+}
+
+function checkMaxGuesses(){
+	if (curGameWord.guesses === 0){
+		inquirer.prompt([
+	      {
+	        name: "newGame2",
+	        message: "\n Aw!! You ran out of guesses! Play Again? \n",
+	        type: "confirm"
+	      }
+	    ]).then(function(res){
+	    		//console.log(res)
+	    		if(res.newGame2 === true|| res.newGame2 === "yes"){
+	    			//songs = [words.word1, words.word2, words.word3, words.word4, words.word5, words.word6, words.word7, words.word8, words.word9, words.word10];
+					songs =[words.word5,words.word7]
+					pickWord();
+					curGameWord = new Word(gameWord);
+					console.log(curGameWord.wordArray)
+					curGameWord.lettersObjects();
+					console.log("\n New Word! \n")
+					curGameWord.displayWord();
+					console.log("\n Guesses left: " + curGameWord.guesses +"\n")
+					UserInput();
+	    		}
+	    		else{
+	    			console.log("\n Thanks for playing!! :) \n")
+	    		}
+	    })
+	}
+	else if (curGameWord.guesses > 0){
+		curGameWord.guessedltrs.push(guess)
+	    console.log("\n"+ curGameWord.uarray.join(" ")+"\n")
+	    console.log("\n Letters already guessed: "+ curGameWord.guessedltrs.join(" ")+"\n")
+	    console.log("\n Guesses left: " + curGameWord.guesses +"\n")
+	    curGameWord.newWordCheck();
+	    //console.log(curGameWord.wordWon)
+	    UserInput();
 	}
 }
 
 
+//create game contructor with this.choices
 
 
 
